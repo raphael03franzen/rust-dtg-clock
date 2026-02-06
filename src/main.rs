@@ -13,8 +13,8 @@ fn main() {
     let mode: Mode = match argc {
         0 | 1 => Mode::Both,
         2.. => match &argv[1] {
-            val if *val == "--local".to_string() => Mode::Local,
-            val if *val == "--utc".to_string() => Mode::Utc,
+            val if *val == "--local" => Mode::Local,
+            val if *val == "--utc" => Mode::Utc,
             val if *val == "--both" => Mode::Both,
             _ => {
                 eprintln!("Invallid Argument, assuming --both");
@@ -76,6 +76,6 @@ fn parse_tz(tz: &str) -> char {
         "+10:00" => 'K',
         "+11:00" => 'L',
         "+12:00" => 'M',
-        _ => todo!(),
+        &_ => todo!(),
     }
 }
