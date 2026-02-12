@@ -9,3 +9,4 @@ path = "src/lib.rs"
 
 [dependencies]
 chrono = "0.4.43"
+clap = { version = "4.5.58", features = ["derive"] }
