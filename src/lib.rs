@@ -1,7 +1,9 @@
 use chrono::prelude::*;
+///Print DTG timestamp, using Local Time
 pub fn print_local() {
 	print("Local Time:\t", Local::now())
 }
+///Print DTG timestamp, using UTC-Time
 pub fn print_utc() {
 	print("UTC Time:\t", Utc::now());
 }
