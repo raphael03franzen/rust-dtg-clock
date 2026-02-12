@@ -1,7 +1,9 @@
 use chrono::prelude::*;
+///Print DTG timestamp, using Local Time
 pub fn print_local(color: bool) {
 	print("Local Time:\t", Local::now(), color)
 }
+///Print DTG timestamp, using UTC-Time
 pub fn print_utc(color: bool) {
 	print("UTC Time:\t", Utc::now(), color);
 }
@@ -47,8 +49,7 @@ fn parse_tz(tz: &str) -> &str {
 		"-03:00" => "P",
 		"-02:00" => "O",
 		"-01:00" => "N",
-		"+00:00" => "Z",
-		"UTC" => "Z",
+		"+00:00" | "UTC" => "Z",
 		"+01:00" => "A",
 		"+02:00" => "B",
 		"+03:00" => "C",
@@ -61,6 +62,6 @@ fn parse_tz(tz: &str) -> &str {
 		"+10:00" => "K",
 		"+11:00" => "L",
 		"+12:00" => "M",
-		&_ => todo!(),
+		&_ => "_",
 	}
 }
