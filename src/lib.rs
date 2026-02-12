@@ -1,25 +1,39 @@
 use chrono::prelude::*;
 ///Print DTG timestamp, using Local Time
-pub fn print_local() {
-	print("Local Time:\t", Local::now())
+pub fn print_local(color: bool) {
+	print("Local Time:\t", Local::now(), color)
 }
 ///Print DTG timestamp, using UTC-Time
-pub fn print_utc() {
-	print("UTC Time:\t", Utc::now());
+pub fn print_utc(color: bool) {
+	print("UTC Time:\t", Utc::now(), color);
 }
-fn print<Tz: chrono::TimeZone>(label: &str, dt: DateTime<Tz>)
+fn print<Tz: chrono::TimeZone>(label: &str, dt: DateTime<Tz>, color: bool)
 where
 	<Tz as TimeZone>::Offset: std::fmt::Display,
 {
 	let tz = dt.format("%Z").to_string();
 	let tz = parse_tz(&tz);
-	println!(
-		"{}\t{}{}{}",
-		label,
-		dt.format("%d%H%M"),
-		tz,
-		dt.format("%b%y")
-	);
+        
+        let mut label:String = label.to_string();
+        let mut tz:String = tz.to_string();
+	let mut day:String = dt.format("%d").to_string();
+	let mut hour:String = dt.format("%H").to_string();
+	let mut minute:String = dt.format("%M").to_string();
+	let mut month:String = dt.format("%b").to_string();
+	let mut year:String = dt.format("%y").to_string();
+
+	if color {
+                use minimal_ansi_color::AnsiColor;
+		label = format!("{}{label}{}", AnsiColor::GREEN, AnsiColor::RESET);
+		tz = format!("{}{tz}{}", AnsiColor::GREEN, AnsiColor::RESET);
+		day = format!("{}{day}{}", AnsiColor::RED, AnsiColor::RESET);
+		hour = format!("{}{hour}{}", AnsiColor::CYAN, AnsiColor::RESET);
+		minute = format!("{}{minute}{}", AnsiColor::CYAN, AnsiColor::RESET);
+		month = format!("{}{month}{}", AnsiColor::RED, AnsiColor::RESET);
+		year = format!("{}{year}{}", AnsiColor::RED, AnsiColor::RESET);
+        }
+
+	println!("{label}\t{day}{hour}{minute}{tz}{month}{year}",);
 }
 fn parse_tz(tz: &str) -> &str {
 	match tz {
