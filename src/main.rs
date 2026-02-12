@@ -14,10 +14,10 @@ fn main() {
 	if args.utc {
 		dtg::print_utc();
 	}
-        if args.local {
+	if args.local {
 		dtg::print_local();
 	}
-        if !args.local && !args.utc {
+	if !args.local && !args.utc {
 		dtg::print_local();
 		dtg::print_utc();
 	}
