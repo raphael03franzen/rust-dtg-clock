@@ -1,47 +1,38 @@
+use clap::Parser;
 #[derive(Debug)]
-struct Mode {
-	print_local: bool,
-	print_utc: bool,
+enum Mode {
+	Local,
+	Utc,
+	Both,
+	Invalid,
 }
+#[derive(Parser, Debug)]
+#[command(version,about,long_about = None)]
+struct Args {
+	///Mode select [local,utc,both]
+	#[arg(long,short,default_value_t = String::from("both"))]
+	mode: String,
+}
+
 fn main() {
-	let args: Vec<String> = std::env::args().collect();
-	let mode: Mode;
-	if args.len() == 1 {
-		mode = Mode {
-			print_local: true,
-			print_utc: true,
-		};
-	} else if args.len() == 2 {
-		mode = match &args[1] {
-			val if *val == "--local" => Mode {
-				print_local: true,
-				print_utc: false,
-			},
-			val if *val == "--utc" => Mode {
-				print_local: false,
-				print_utc: true,
-			},
-			val if *val == "--both" => Mode {
-				print_local: true,
-				print_utc: true,
-			},
-			_ => {
-				eprintln!("Invalid Argument.");
-				usage(&args[0]);
-				return;
-			}
-		};
-	} else {
-		usage(&args[0]);
-		return;
+	let args = Args::parse();
+	let mode: &str = &args.mode;
+	let mode: Mode = match mode {
+		"local" => Mode::Local,
+		"utc" => Mode::Utc,
+		"both" => Mode::Both,
+		_ => Mode::Invalid,
+	};
+	match mode {
+		Mode::Invalid => {
+			eprintln!("Invalid Mode!");
+			return;
+		}
+		Mode::Local => dtg::print_local(),
+		Mode::Utc => dtg::print_utc(),
+		Mode::Both => {
+			dtg::print_local();
+			dtg::print_utc();
+		}
 	}
-	if mode.print_local {
-		dtg::print_local();
-	}
-	if mode.print_utc {
-		dtg::print_utc();
-	}
-}
-fn usage(name: &str) {
-	eprintln!("Usage: {} [--local | --utc | --both]", name);
 }
