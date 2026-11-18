@@ -1,9 +1,9 @@
 use clap::Parser;
 #[derive(Parser, Debug)]
 struct Args {
-        //Enable color
-        #[arg(long,short)]
-        color: bool,
+	//Enable color
+	#[arg(long, short)]
+	color: bool,
 	///Print local time
 	#[arg(short, long)]
 	local: bool,
@@ -11,7 +11,6 @@ struct Args {
 	#[arg(short, long)]
 	utc: bool,
 }
-
 fn main() {
 	let args = Args::parse();
 	if args.utc {

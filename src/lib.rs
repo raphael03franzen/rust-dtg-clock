@@ -13,17 +13,17 @@ where
 {
 	let tz = dt.format("%Z").to_string();
 	let tz = parse_tz(&tz);
-        
-        let mut label:String = label.to_string();
-        let mut tz:String = tz.to_string();
-	let mut day:String = dt.format("%d").to_string();
-	let mut hour:String = dt.format("%H").to_string();
-	let mut minute:String = dt.format("%M").to_string();
-	let mut month:String = dt.format("%b").to_string();
-	let mut year:String = dt.format("%y").to_string();
+
+	let mut label: String = label.to_string();
+	let mut tz: String = tz.to_string();
+	let mut day: String = dt.format("%d").to_string();
+	let mut hour: String = dt.format("%H").to_string();
+	let mut minute: String = dt.format("%M").to_string();
+	let mut month: String = dt.format("%b").to_string();
+	let mut year: String = dt.format("%y").to_string();
 
 	if color {
-                use minimal_ansi_color::AnsiColor;
+		use minimal_ansi_color::AnsiColor;
 		label = format!("{}{label}{}", AnsiColor::GREEN, AnsiColor::RESET);
 		tz = format!("{}{tz}{}", AnsiColor::GREEN, AnsiColor::RESET);
 		day = format!("{}{day}{}", AnsiColor::RED, AnsiColor::RESET);
@@ -31,7 +31,7 @@ where
 		minute = format!("{}{minute}{}", AnsiColor::CYAN, AnsiColor::RESET);
 		month = format!("{}{month}{}", AnsiColor::RED, AnsiColor::RESET);
 		year = format!("{}{year}{}", AnsiColor::RED, AnsiColor::RESET);
-        }
+	}
 
 	println!("{label}\t{day}{hour}{minute}{tz}{month}{year}",);
 }
