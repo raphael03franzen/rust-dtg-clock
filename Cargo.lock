@@ -244,12 +244,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d15f86d12da44cd8d4ec3c73984537eb7f4cadcb9776a575a0a8a05ca11005c"
 
 [[package]]
-name = "minimal_ansi_color"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0287fdb9dcf6f251a36d30f0ef8182ec76ae324290e455e236248a22e0014b77"
-
-[[package]]
 name = "num-traits"
 version = "0.2.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -292,9 +286,9 @@ dependencies = [
 name = "rust-dtg-clock"
 version = "0.2.0"
 dependencies = [
+ "anstyle",
  "chrono",
  "clap",
- "minimal_ansi_color",
 ]
 
 [[package]]

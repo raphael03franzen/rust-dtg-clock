@@ -1,3 +1,4 @@
+use anstyle::{AnsiColor, Style};
 use chrono::prelude::*;
 ///Print DTG timestamp, using Local Time
 pub fn print_local(color: bool) {
@@ -7,34 +8,25 @@ pub fn print_local(color: bool) {
 pub fn print_utc(color: bool) {
 	print("UTC", Utc::now(), color);
 }
-fn print<Tz: chrono::TimeZone>(label: &str, dt: DateTime<Tz>, color: bool)
+fn print<Tz: TimeZone>(label: &str, dt: DateTime<Tz>, color: bool)
 where
 	<Tz as TimeZone>::Offset: std::fmt::Display,
 {
 	let tz = dt.format("%Z").to_string();
 	let tz = parse_tz(&tz);
 
-	let day = dt.format("%d");
-	let time = dt.format("%H%M");
-	let date = dt.format("%b%y");
-
-	let (red, green, cyan, reset) = if color {
-		(
-			minimal_ansi_color::AnsiColor::RED,
-			minimal_ansi_color::AnsiColor::GREEN,
-			minimal_ansi_color::AnsiColor::CYAN,
-			minimal_ansi_color::AnsiColor::RESET,
-		)
+	if color {
+		let day = dt.format("%d");
+		let time = dt.format("%H%M");
+		let month = dt.format("%b");
+		let year = dt.format("%y");
+		let red = Style::new().fg_color(Some(AnsiColor::Red.into()));
+		let green = Style::new().fg_color(Some(AnsiColor::Green.into()));
+		let cyan = Style::new().fg_color(Some(AnsiColor::Cyan.into()));
+		println!("{green}{label}:\t{red}{day}{cyan}{time}{green}{tz}{red}{month}{year}{red:#}")
 	} else {
-		(
-			Default::default(),
-			Default::default(),
-			Default::default(),
-			Default::default(),
-		)
-	};
-
-	println!("{green}{label}:\t{red}{day}{cyan}{time}{green}{tz}{red}{date}{reset}")
+		println!("{label}:\t{}{tz}{}", dt.format("%d%H%M"), dt.format("%b%y"))
+	}
 }
 fn parse_tz(tz: &str) -> &str {
 	match tz {
